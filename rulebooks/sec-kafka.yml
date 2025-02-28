@@ -9,7 +9,7 @@
         verify_mode: CERT_OPTIONAL
 
   rules:
-    - name: kafka
+    - name: debug
       condition: event.message != ""
       action:
         debug:
