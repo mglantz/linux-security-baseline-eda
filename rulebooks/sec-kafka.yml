@@ -13,7 +13,7 @@
     - name: kafka
       condition: event.body.securitybaseline == "security-baseline was changed"
       action:
-        job_run:
+        run_job_template:
           name: "apply_security_baseline"
           organization: Default
           extra_vars:
