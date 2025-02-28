@@ -7,4 +7,4 @@
 
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} {{ hostvars[inventory_hostname]['hostname'] }} {{ hostvars[inventory_hostname]['fqdn'] }}
+{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} {{ hostvars[inventory_hostname]['ansible_facts']['hostname'] }} {{ hostvars[inventory_hostname]['ansible_facts']['fqdn'] }}
