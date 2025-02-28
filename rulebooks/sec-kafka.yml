@@ -12,8 +12,14 @@
     - name: kafka
       condition: event.message != ""
       action:
+        debug:
+          msg: “{{ event }}”
+
+    - name: kafka
+      condition: event.message != ""
+      action:
         run_job:
           name: "apply_security_baseline"
           organization: Default
           extra_vars:
-            - server_target: "{{ event.host }}"
+            server_target: "{{ event.host }}"
