@@ -1,0 +1,7 @@
+---
+- name: Apply security baseline
+  hosts: "{{ server_target }}"
+  tasks:
+    - name: Include /etc/hosts role
+      ansible.builtin.include_role:
+        name: hosts
