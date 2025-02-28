@@ -9,17 +9,12 @@
         verify_mode: CERT_OPTIONAL
 
   rules:
-    - name: debug
-      condition: event.message != ""
-      action:
-        debug:
-          msg: “{{ event }}”
-
+  rules:
     - name: kafka
-      condition: event.message != ""
+      condition: event.body.securitybaseline == "security-baseline was changed"
       action:
         run_job:
           name: "apply_security_baseline"
           organization: Default
           extra_vars:
-            server_target: "{{ event.host }}"
+            server_target: "{{ event.body.hostname }}"
