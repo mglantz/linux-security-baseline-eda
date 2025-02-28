@@ -10,7 +10,7 @@
 
   rules:
     - name: kafka
-      condition: event.message != ""
+      condition: event.message contains "audisp" and event.message contains "linux-security-baseline"
       action:
         run_job:
           name: "apply_security_baseline"
