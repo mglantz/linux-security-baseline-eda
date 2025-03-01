@@ -9,7 +9,6 @@
         verify_mode: CERT_OPTIONAL
 
   rules:
-  rules:
     - name: kafka
       condition: event.body.securitybaseline == "security-baseline was changed"
       action:
