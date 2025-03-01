@@ -3,6 +3,10 @@
   hosts: "{{ ansible_eda.event.body.hostname }}"
   become: true
   tasks:
+    - name: Auditd rule violation information
+      ansible.builtin.debug:
+        var: {{ ansible_eda.event.body.message }}
+
     - name: Include /etc/hosts role
       ansible.builtin.include_role:
         name: hosts

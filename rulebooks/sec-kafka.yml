@@ -16,5 +16,3 @@
           name: 'Apply Linux security baseline'
           organization: 'Default'
           filter: '*'
-          extra_vars:
-            server_target: "{{ event.body.hostname }}"
