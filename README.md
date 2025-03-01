@@ -19,6 +19,8 @@ I've just set this up myself. I'll have to get back to you with more detailed in
 
 Til then, you'll find auditd config in the audit folder, the rsyslog config in the rsyslog folder, and the vector config in the vector folder.
 
+Example rulebook available in the rulebooks folder, and demo playbook in the base directory, called sec-baseline.yml.
+
 Kafka setup is just based on the Kafka quickstart, available here: https://kafka.apache.org/quickstart
 
 ## Author
