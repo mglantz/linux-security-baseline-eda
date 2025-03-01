@@ -3,10 +3,6 @@
   hosts: "{{ server_target }}"
   become: true
   tasks:
-    - name: Hostvars
-      debug:
-        var: hostvars[inventory_hostname]
-
     - name: Include /etc/hosts role
       ansible.builtin.include_role:
         name: hosts
