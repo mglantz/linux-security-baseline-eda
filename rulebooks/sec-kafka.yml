@@ -14,7 +14,8 @@
       condition: event.body.securitybaseline == "security-baseline was changed"
       action:
         run_job_template:
-          name: "apply_security_baseline"
-          organization: Default
+          name: 'Apply Linux security baseline'
+          organization: 'Default'
+          filter: '*'
           extra_vars:
             server_target: "{{ event.body.hostname }}"
