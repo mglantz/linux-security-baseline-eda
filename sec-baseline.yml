@@ -1,6 +1,6 @@
 ---
 - name: Apply security baseline
-  hosts: "{{ server_target }}"
+  hosts: "{{ ansible_eda.event.body.hostname }}"
   become: true
   tasks:
     - name: Include /etc/hosts role
