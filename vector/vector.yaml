@@ -30,15 +30,32 @@ transforms:
     inputs: ["rsyslog_source"]
     source: |
       . = parse_syslog!(string!(.message)) 
+
+      # Create identifier we can process based on auditd key
       if (contains(.message, "security-baseline")) {
-        .securitybaseline = "security-baseline was changed"
+        .securitybaseline = "security-baseline event"
       } else {
         .securitybaseline = "ignore"
       }
+
+      # Ansible uses Python...
       if (contains(.message, "python3.9")) {
         .securitybaseline = "ignore"
       }
+
+      # Someone removed a RPM
+      if (contains(.message, "remove sw")) {
+        .securitybaseline = "security-baseline event"
+      }
+
+      # Use of sysctl
+      if (contains(.message, "/usr/sbin/sysctl")) {
+        .securitybaseline = "security-baseline event"
+      }
+
+      # For dedup purposes
       .timestamp = format_timestamp!(now(),"%Y-%m-%d-%H-%M")
+
       .hostname = "linux1.sudo.net"
 
   filter_out_info:
