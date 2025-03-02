@@ -7,6 +7,10 @@
       ansible.builtin.debug:
         msg: "audit.log information: {{ ansible_eda.event.body.message }}"
 
-    - name: Include /etc/hosts role
+    - name: Include hosts role
       ansible.builtin.include_role:
         name: hosts
+
+    - name: Include rpmbaseline role
+      ansible.builtin.include_role:
+        name: rpmbaseline
