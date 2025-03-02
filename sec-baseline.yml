@@ -1,6 +1,6 @@
 ---
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.body.hostname }}"
+  hosts: "{{ ansible_eda.event.body.message.node }}"
   become: true
   tasks:
     - name: Auditd rule violation information
