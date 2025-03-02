@@ -1,8 +1,34 @@
 ## First rule - delete all
 -D
 
-# Watch attribute and writes to /etc/hosts, add identifier security-baseline to hits
+# Self Auditing ---------------------------------------------------------------
+
+## Auditd configuration
+### Modifications to audit configuration that occur while the audit collection functions are operating
+-w /etc/audit/ -p wa -k security-baseline
+-w /etc/audit/rules.d/audit.rules -k security-baseline
+-w /etc/libaudit.conf -p wa -k security-baseline
+-w /etc/audisp/ -p wa -k security-baseline
+
+# Protect files
 -w /etc/hosts -p wa -k security-baseline
+
+# Protect kernel configuration
+## Kernel parameters
+-w /usr/sbin/sysctl -p x -k security-baseline
+
+-w /etc/sysctl.conf -p wa -k security-baseline
+-w /etc/sysctl.d -p wa -k security-baseline
+
+## Kernel module loading and unloading
+-a always,exit -F perm=x -F auid!=-1 -F path=/sbin/insmod -k security-baseline
+-a always,exit -F perm=x -F auid!=-1 -F path=/sbin/modprobe -k security-baseline
+-a always,exit -F perm=x -F auid!=-1 -F path=/sbin/rmmod -k security-baseline
+-a always,exit -F arch=b64 -S finit_module -S init_module -S delete_module -F auid!=-1 -k security-baseline
+
+## Modprobe configuration
+-w /etc/modprobe.conf -p wa -k security-baseline
+-w /etc/modprobe.d -p wa -k security-baseline
 
 ## Increase the buffers to survive stress events.
 ## Make this bigger for busy systems
@@ -13,4 +39,3 @@
 
 ## Set failure mode to syslog
 -f 1
-
