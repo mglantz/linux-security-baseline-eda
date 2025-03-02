@@ -10,7 +10,7 @@
 
   rules:
     - name: kafka
-      condition: event.body.securitybaseline == "security-baseline was changed"
+      condition: event.body.securitybaseline == "security-baseline event"
       action:
         run_job_template:
           name: 'Apply Linux security baseline'
