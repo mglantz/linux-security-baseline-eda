@@ -56,7 +56,7 @@ transforms:
       # For dedup purposes
       .timestamp = format_timestamp!(now(),"%Y-%m-%d-%H-%M")
 
-      .hostname = "linux1.sudo.net"
+      .hostname = .hostname + ".sudo.net"
 
   filter_out_info:
     type: "filter"
@@ -107,3 +107,4 @@ sinks:
 api:
   enabled: true
   address: "0.0.0.0:8686"
+
