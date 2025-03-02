@@ -14,3 +14,15 @@
     - name: Include rpmbaseline role
       ansible.builtin.include_role:
         name: rpmbaseline
+
+    - name: Include audit role
+      ansible.builtin.include_role:
+        name: audit
+
+    - name: Include rsyslog role
+      ansible.builtin.include_role:
+        name: rsyslog
+
+    - name: Include sysctl role
+      ansible.builtin.include_role:
+        name: sysctl
