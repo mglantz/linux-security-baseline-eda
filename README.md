@@ -15,18 +15,31 @@ Hello and welcome to this demonstration of using Event Driven Ansible to remedia
 8. A job_template run on the AAP Controller receives information remediates the authorized change by re-apply the security baseline.
 
 ## Installation
-I've just set this up myself. I'll have to get back to you with more detailed info, or a playbook to set it up.
+I've just set this up myself. I'll try to get to creating this environment automatically later.
 
-Til then, you'll find auditd config in the audit folder, the rsyslog config in the rsyslog folder, and the vector config in the vector folder.
+- To setup a demo environment you need 3 servers + AAP 2.5:
+1. A RHEL 9 system to protect
+2. A RHEL 9 system to host rsyslog server and vector
+3. A RHEL 9 system to host Kafka
+4. AAP 2.5
 
-Example rulebook available in the rulebooks folder, and demo playbook in the base directory, called sec-baseline.yml.
+### On the system you are looking to protect:
+Put in place the audit.rules and rsyslog.conf configuration found in the audit/rsyslog folders.
 
-Kafka setup is just based on the Kafka quickstart, available here: https://kafka.apache.org/quickstart
+### On the rsyslog/vector system:
+Install and configure vector and rsyslog as described in the rsyslog/vector folders.
 
-## Author
+### On the Kafka system:
+Install and configure Kafka as described in the kafka folder.
+
+### On AAP 2.5
+Configure what's required following instructions in the aap folder.
+
+## Author(s)
 - Magnus Glantz, sudo@redhat.com, 2025
 
 ## Credits
 - Many thanks to Mina George, Red Hat, who came up with the idea of using Vector and a normal Rsyslog server to feed into EDA actions. Without you Mina, I would have never set this up.
 - Much thanks to Alexander Rydekull, Red Hat, who on a shared flight from LA to Copenhagen, co-authored the idea of using EDA to resolve capacity related issues in large scale security baseline implementation.
+
 
