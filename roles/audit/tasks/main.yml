@@ -1,0 +1,16 @@
+---
+# tasks file for audit
+
+- name: Ensure auditd rule file is according to Security baseline
+  ansible.builtin.copy:
+    src: audit.rules
+    dest: /etc/audit/rules.d/audit.rules
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Ensure auditd daemon is started and enabled
+  ansible.builtin.service:
+    name: auditd
+    status: started
+    enabled: true
