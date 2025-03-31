@@ -7,7 +7,7 @@
         port: 9092
         topic: security-baseline-events
         verify_mode: CERT_OPTIONAL
-        offset: earliest
+        offset: lastest
 
   rules:
     - name: kafka
