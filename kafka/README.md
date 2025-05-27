@@ -1,7 +1,7 @@
 # Installation
 - Follow the Kafka quickstart: https://kafka.apache.org/quickstart
 - Eg:
-- Download kafka tar
+- Download kafka_2.13-3.9.0.tgz (below instructions assumes zookeeper is still shipped together with Kafka)
 - Extract tar
 - Run:
 ```
