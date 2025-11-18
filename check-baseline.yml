@@ -31,6 +31,6 @@
       ansible.builtin.include_tasks:
         file: enforce-baseline.yml
       when:
-        - sysctl.changed is true or
-        - rsyslog.changed is true or
+        - sysctl.changed is true
+        - rsyslog.changed is true
         - auditd.changed is true
