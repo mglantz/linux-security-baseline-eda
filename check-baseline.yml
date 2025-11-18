@@ -40,11 +40,11 @@
       check_mode: true
       register: rpms
 
-    - block:
-      - name: Enforce standard if checks fails
-        ansible.builtin.import_playbook: enforce-baseline.yml
-    when:
-      - rpms.changed is true or
-      - sysctl.changed is true or
-      - rsyslog.changed is true or
-      - auditd.changed is true
+    - name: Enforce standard if checks fails
+      ansible.builtin.include_tasks:
+        file: enforce-baseline.yml
+      when:
+        - rpms.changed is true or
+        - sysctl.changed is true or
+        - rsyslog.changed is true or
+        - auditd.changed is true

@@ -1,24 +1,20 @@
 ---
-- name: Apply security baseline
-  hosts: all
-  become: true
-  tasks:
-    - name: Include hosts role
-      ansible.builtin.include_role:
-        name: hosts
+- name: Include hosts role
+  ansible.builtin.include_role:
+    name: hosts
 
-    - name: Include rpmbaseline role
-      ansible.builtin.include_role:
-        name: rpmbaseline
+- name: Include rpmbaseline role
+  ansible.builtin.include_role:
+    name: rpmbaseline
 
-    - name: Include audit role
-      ansible.builtin.include_role:
-        name: audit
+- name: Include audit role
+  ansible.builtin.include_role:
+    name: audit
 
-    - name: Include rsyslog role
-      ansible.builtin.include_role:
-        name: rsyslog
+- name: Include rsyslog role
+  ansible.builtin.include_role:
+    name: rsyslog
 
-    - name: Include sysctl role
-      ansible.builtin.include_role:
-        name: sysctl
+- name: Include sysctl role
+  ansible.builtin.include_role:
+    name: sysctl
