@@ -1,0 +1,49 @@
+---
+- name: Check security baseline
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure auditd daemon is started and enabled
+      ansible.builtin.service:
+        name: auditd
+        state: started
+        enabled: true
+      check_mode: true
+      register: auditd
+
+    - name: Ensure rsyslog is starte and enabled
+      ansible.builtin.service:
+        name: rsyslog
+        state: started
+        enabled: true
+      check_mode: true
+      register: rsyslog
+
+    - name: Set sysctl parameters
+      ansible.posix.sysctl:
+        name: net.ipv4.tcp_syncookies
+        value: 1
+        state: present
+      check_mode: true
+      register: sysctl
+
+    - name: Ensure RPMs that are included in the Security baseline are installed
+      ansible.builtin.dnf:
+        name:
+          - audit
+          - rsyslog
+          - aide
+          - firewalld
+          - lsof
+          - wget
+      state: present
+      check_mode: true
+      register: rpms
+
+    - name: Enforce standard if checks fails
+      ansible.builtin.import_playbook: enforce-baseline.yml
+      when:
+        - rpms.changed is true or
+        - sysctl.changed is true or
+        - rsyslog.changed is true or
+        - auditd.changed is true

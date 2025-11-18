@@ -12,4 +12,5 @@
 - name: Ensure auditd daemon is started and enabled
   ansible.builtin.service:
     name: auditd
+    state: started
     enabled: true
