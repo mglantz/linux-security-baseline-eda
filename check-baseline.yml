@@ -27,24 +27,10 @@
       check_mode: true
       register: sysctl
 
-    - name: Ensure RPMs that are included in the Security baseline are installed
-      ansible.builtin.dnf:
-        name:
-          - audit
-          - rsyslog
-          - aide
-          - firewalld
-          - lsof
-          - wget
-        state: present
-      check_mode: true
-      register: rpms
-
     - name: Enforce standard if checks fails
       ansible.builtin.include_tasks:
         file: enforce-baseline.yml
       when:
-        - rpms.changed is true or
         - sysctl.changed is true or
         - rsyslog.changed is true or
         - auditd.changed is true
