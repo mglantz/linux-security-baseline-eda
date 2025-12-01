@@ -1,4 +1,15 @@
 ---
+- name: Validate input
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure ansible_eda.event.body.hostname refers to a valid inventory host
+      assert:
+        that:
+          - ansible_eda.event.body.hostname in groups['all']
+        fail_msg: "Host '{{ ansible_eda.event.body.hostname }}' is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.body.hostname }}' is present in the inventory."
+
 - name: Apply security baseline
   hosts: "{{ ansible_eda.event.body.hostname }}"
   become: true
