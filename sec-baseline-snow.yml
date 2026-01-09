@@ -4,10 +4,10 @@
   become: true
   gather_facts: false
   tasks:
-    - name: Ensure ansible_eda.event.body.hostname refers to a valid inventory host
+    - name: Ensure ansible_eda.event.description refers to a valid inventory host
       assert:
         that:
-          - ansible_eda.event.body.hostname in groups['all']
+          - ansible_eda.event.description | regex_search('(?i).sudo.net+') in groups['all']
         fail_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+') }}' is NOT in the inventory!"
         success_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+') }}' is present in the inventory."
 
