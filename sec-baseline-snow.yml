@@ -2,21 +2,22 @@
 - name: Validate input
   hosts: all
   become: true
+  gather_facts: false
   tasks:
     - name: Ensure ansible_eda.event.body.hostname refers to a valid inventory host
       assert:
         that:
           - ansible_eda.event.body.hostname in groups['all']
-        fail_msg: "Host '{{ ansible_eda.event.body.hostname }}' is NOT in the inventory!"
-        success_msg: "Host '{{ ansible_eda.event.body.hostname }}' is present in the inventory."
+        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+)') }}' is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+)') }}' is present in the inventory."
 
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.body.hostname }}"
+  hosts: "{{ ansible_eda.event.description | regex_search('(?i).sudo.net+)') }}"
   become: true
   tasks:
     - name: Auditd rule violation information
       ansible.builtin.debug:
-        msg: "audit.log information: {{ ansible_eda.event.body.message }}"
+        msg: "audit.log information: {{ ansible_eda.event.description }}"
 
     - name: Include hosts role
       ansible.builtin.include_role:
