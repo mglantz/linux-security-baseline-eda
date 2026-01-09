@@ -1,0 +1,39 @@
+---
+- name: Validate input
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure ansible_eda.event.body.hostname refers to a valid inventory host
+      assert:
+        that:
+          - ansible_eda.event.body.hostname in groups['all']
+        fail_msg: "Host '{{ ansible_eda.event.body.hostname }}' is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.body.hostname }}' is present in the inventory."
+
+- name: Apply security baseline
+  hosts: "{{ ansible_eda.event.body.hostname }}"
+  become: true
+  tasks:
+    - name: Auditd rule violation information
+      ansible.builtin.debug:
+        msg: "audit.log information: {{ ansible_eda.event.body.message }}"
+
+    - name: Include hosts role
+      ansible.builtin.include_role:
+        name: hosts
+
+    - name: Include rpmbaseline role
+      ansible.builtin.include_role:
+        name: rpmbaseline
+
+    - name: Include audit role
+      ansible.builtin.include_role:
+        name: audit
+
+    - name: Include rsyslog role
+      ansible.builtin.include_role:
+        name: rsyslog
+
+    - name: Include sysctl role
+      ansible.builtin.include_role:
+        name: sysctl
