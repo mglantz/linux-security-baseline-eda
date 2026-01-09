@@ -8,11 +8,11 @@
       assert:
         that:
           - ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first in groups['all']
-        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first }}' is NOT in the inventory!"
-        success_msg: "Host '{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first }}' is present in the inventory."
+        fail_msg: "Host '{{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}'.sudo.net is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net' is present in the inventory."
 
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first }}"
+  hosts: "{{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net"
   become: true
   tasks:
     - name: Auditd rule violation information
