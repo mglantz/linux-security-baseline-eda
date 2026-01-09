@@ -26,3 +26,12 @@
     - name: Include sysctl role
       ansible.builtin.include_role:
         name: sysctl
+
+    - name: close incidents from list
+      servicenow.itsm.incident:
+        state: closed
+        number: "{{ ansible_eda.event.number }}"
+        close_code: "Solved (Permanently)"
+        close_notes: "Security baseline breach automatically remediated by Ansible Automation Platform"
+        other:
+          active: false
