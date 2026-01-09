@@ -36,7 +36,7 @@
         other:
           active: false
         instance:
-          host: "https://{{ SNOW_INSTANCE }}"
+          host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
           password: "{{ SNOW_PASS }}"
       delegate_to: localhost
