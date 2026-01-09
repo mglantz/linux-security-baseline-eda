@@ -39,3 +39,4 @@
           host: "https://{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
           password: "{{ SNOW_PASS }}"
+      delegate_to: localhost
