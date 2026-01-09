@@ -7,12 +7,12 @@
     - name: Ensure ansible_eda.event.description refers to a valid inventory host
       assert:
         that:
-          - ansible_eda.event.description | regex_search('node=(.+)', '\\1') in groups['all']
-        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') }}' is NOT in the inventory!"
-        success_msg: "Host '{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') }}' is present in the inventory."
+          - ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first in groups['all']
+        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first }}' is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first }}' is present in the inventory."
 
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') }}"
+  hosts: "{{ ansible_eda.event.description | regex_search('node=(.+)', '\\1') | first }}"
   become: true
   tasks:
     - name: Auditd rule violation information
