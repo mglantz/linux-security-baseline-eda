@@ -35,3 +35,7 @@
         close_notes: "Security baseline breach automatically remediated by Ansible Automation Platform"
         other:
           active: false
+        instance:
+          host: "https://{{ SNOW_INSTANCE }}"
+          username: "{{ SNOW_USER }}"
+          password: "{{ SNOW_PASS }}"
