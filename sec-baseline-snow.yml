@@ -1,16 +1,4 @@
 ---
-- name: Validate input
-  hosts: all
-  become: true
-  gather_facts: false
-  tasks:
-    - name: Ensure ansible_eda.event.description refers to a valid inventory host
-      assert:
-        that:
-          - "ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net" in groups['all']
-        fail_msg: "Host {{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net is NOT in the inventory!"
-        success_msg: "Host {{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net is present in the inventory."
-
 - name: Apply security baseline
   hosts: "{{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net"
   become: true
