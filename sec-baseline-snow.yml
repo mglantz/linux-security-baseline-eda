@@ -7,12 +7,12 @@
     - name: Ensure ansible_eda.event.description refers to a valid inventory host
       assert:
         that:
-          - ansible_eda.event.description | regex_search('*.sudo.net') in groups['all']
-        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('*.sudo.net') }}' is NOT in the inventory!"
-        success_msg: "Host '{{ ansible_eda.event.description | regex_search('*.sudo.net') }}' is present in the inventory."
+          - ansible_eda.event.description | regex_search('[.+,',s) in groups['all']
+        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('[.+,',s) }}' is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.description | regex_search('[.+,',s) }}' is present in the inventory."
 
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.description | regex_search('*.sudo.net') }}"
+  hosts: "{{ ansible_eda.event.description | regex_search('[.+,',s) }}"
   become: true
   tasks:
     - name: Auditd rule violation information
