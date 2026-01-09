@@ -8,11 +8,11 @@
       assert:
         that:
           - ansible_eda.event.body.hostname in groups['all']
-        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+)') }}' is NOT in the inventory!"
-        success_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+)') }}' is present in the inventory."
+        fail_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+') }}' is NOT in the inventory!"
+        success_msg: "Host '{{ ansible_eda.event.description | regex_search('(?i).sudo.net+') }}' is present in the inventory."
 
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.description | regex_search('(?i).sudo.net+)') }}"
+  hosts: "{{ ansible_eda.event.description | regex_search('(?i).sudo.net+') }}"
   become: true
   tasks:
     - name: Auditd rule violation information
