@@ -1,6 +1,6 @@
 ---
 - name: Apply security baseline
-  hosts: "{{ ansible_eda.event.description | split(' ') | regex_search('node=(.+).sudo.net', '\\1') | first }}.sudo.net"
+  hosts: "{{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}""
   become: true
   tasks:
     - name: Auditd rule violation information
