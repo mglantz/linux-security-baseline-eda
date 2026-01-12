@@ -12,6 +12,6 @@ ansible-navigator builder build -f execution-environment.yml -t FQDN-for-private
 ```
 5. Push container to Private Automation Hub.
 ```
-podman login FQN-for-private-automationhub
+podman login FQDN-for-private-automationhub
 podman push FQDN-for-private-automationhub/de-snow-rhel9
 ```
