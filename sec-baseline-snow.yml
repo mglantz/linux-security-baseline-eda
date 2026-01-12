@@ -12,25 +12,14 @@
         short_description: "Reapply security baseline for {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}"
         description: "Ansible Automation Platform will automatically reapply the security baseline"
         on_hold: false
+        other:
+          parent: "{{ ansible_eda.event.number }}"
         instance:
           host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
           password: "{{ SNOW_PASS }}"
       delegate_to: localhost
       register: change
-
-    - name: Create Incident → Change relationship
-      servicenow.itsm.api:
-        resource: task_rel_task
-        action: post
-        data:
-          parent: "{{ ansible_eda.event.number }}"
-          child: "{{ change.record.number }}"
-          type: "Relates to"
-        instance:
-          host: "{{ SNOW_INSTANCE }}"
-          username: "{{ SNOW_USER }}"
-          password: "{{ SNOW_PASS }}"
 
     - name: Auditd rule violation information
       ansible.builtin.debug:
