@@ -14,6 +14,10 @@
         on_hold: false
         other:
           parent: "{{ ansible_eda.event.number }}"
+        instance:
+          host: "{{ SNOW_INSTANCE }}"
+          username: "{{ SNOW_USER }}"
+          password: "{{ SNOW_PASS }}"
       delegate_to: localhost
       register: change
 
@@ -43,13 +47,15 @@
 
     - name: Close change request
       servicenow.itsm.change_request:
-        instance:
-          host: "{{ SNOW_INSTANCE }}"
         state: closed
         close_code: "successful"
         close_notes: "Resolved issue: {{ ansible_eda.event.description }}"
         assignment_group: Change Management
         number: "{{ change.record.number }}"
+        instance:
+          host: "{{ SNOW_INSTANCE }}"
+          username: "{{ SNOW_USER }}"
+          password: "{{ SNOW_PASS }}"
       delegate_to: localhost
 
     - name: Close incident
