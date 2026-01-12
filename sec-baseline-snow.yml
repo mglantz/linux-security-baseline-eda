@@ -22,7 +22,6 @@
     - name: Create Incident → Change relationship
       servicenow.itsm.api:
         resource: task_rel_task
-        state: present
         action: post
         data:
           parent: "{{ ansible_eda.event.number }}"
