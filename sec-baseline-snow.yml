@@ -12,7 +12,7 @@
         on_hold: false
         other:
           parent: "{{ ansible_eda.event.number }}"
-      deligate_to: localhost
+      delegate_to: localhost
       register: change
 
     - name: Auditd rule violation information
@@ -46,7 +46,7 @@
         close_notes: "Resolved issue: {{ ansible_eda.event.description }}"
         assignment_group: Change Management
         number: "{{ change.record.number }}"
-      deligate_to: localhost
+      delegate_to: localhost
 
     - name: Close incident
       servicenow.itsm.incident:
