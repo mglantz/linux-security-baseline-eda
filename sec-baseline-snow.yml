@@ -12,8 +12,6 @@
         short_description: "From incident: {{ ansible_eda.event.number }}: Reapply security baseline for {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}"
         description: "Ansible Automation Platform will automatically reapply the security baseline"
         on_hold: false
-        other:
-          child_id: "{{ ansible_eda.event.number }}"
         instance:
           host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
@@ -63,7 +61,7 @@
         state: closed
         number: "{{ ansible_eda.event.number }}"
         close_code: "Solved (Permanently)"
-        close_notes: "Security baseline breach automatically remediated by Ansible Automation Platform"
+        close_notes: "Change {{ change.record.number }} closed. Security baseline breach automatically remediated by Ansible Automation Platform"
         other:
           active: false
         instance:
