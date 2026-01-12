@@ -13,9 +13,7 @@
         description: "Ansible Automation Platform will automatically reapply the security baseline"
         on_hold: false
         other:
-          incidents_fixed_by_change: "{{ ansible_eda.event.number }}"
-          incident: "{{ ansible_eda.event.number }}"
-          parent: "{{ ansible_eda.event.number }}"
+          incident_id: "{{ ansible_eda.event.number }}"
         instance:
           host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
@@ -67,6 +65,7 @@
         close_code: "Solved (Permanently)"
         close_notes: "Security baseline breach automatically remediated by Ansible Automation Platform"
         other:
+          change_id: "{{ change.record.number }}"
           active: false
         instance:
           host: "{{ SNOW_INSTANCE }}"
