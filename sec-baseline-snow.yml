@@ -20,7 +20,7 @@
       register: change
 
     - name: Create Incident → Change relationship
-      servicenow.servicenow.api:
+      servicenow.itsm.api:
         resource: task_rel_task
         state: present
         data:
