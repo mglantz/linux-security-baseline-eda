@@ -3,6 +3,18 @@
   hosts: "{{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}"
   become: true
   tasks:
+    - name: Create change request for resolving a problem
+      servicenow.itsm.change_request:
+        state: new
+        type: standard
+        short_description: "Reapply security baseline for {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}"
+        description: "Ansible Automation Platform will automatically reapply the security baseline"
+        on_hold: false
+        other:
+          parent: "{{ ansible_eda.event.number }}"
+      deligate_to: localhost
+      register: change
+
     - name: Auditd rule violation information
       ansible.builtin.debug:
         msg: "audit.log information: {{ ansible_eda.event.description }}"
@@ -27,7 +39,16 @@
       ansible.builtin.include_role:
         name: sysctl
 
-    - name: close incidents from list
+    - name: Close change request
+      servicenow.itsm.change_request:
+        state: closed
+        close_code: "successful"
+        close_notes: "Resolved issue: {{ ansible_eda.event.description }}"
+        assignment_group: Change Management
+        number: "{{ change.record.number }}"
+      deligate_to: localhost
+
+    - name: Close incident
       servicenow.itsm.incident:
         state: closed
         number: "{{ ansible_eda.event.number }}"
