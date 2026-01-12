@@ -20,18 +20,17 @@
       register: change
 
     - name: Create Incident → Change relationship
-      servicenow.itsm.records:
-        table: task_rel_task
+      servicenow.servicenow.api:
+        resource: task_rel_task
         state: present
         data:
-          child: "{{ change.record.number }}"
           parent: "{{ ansible_eda.event.number }}"
+          child: "{{ change.record.number }}"
           type: "Relates to"
         instance:
           host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
           password: "{{ SNOW_PASS }}"
-      delegate_to: localhost
 
     - name: Auditd rule violation information
       ansible.builtin.debug:
