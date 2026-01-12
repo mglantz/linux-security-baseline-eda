@@ -5,6 +5,8 @@
   tasks:
     - name: Create change request for resolving a problem
       servicenow.itsm.change_request:
+        instance:
+          host: "{{ SNOW_INSTANCE }}"
         state: new
         type: standard
         short_description: "Reapply security baseline for {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}"
@@ -41,6 +43,8 @@
 
     - name: Close change request
       servicenow.itsm.change_request:
+        instance:
+          host: "{{ SNOW_INSTANCE }}"
         state: closed
         close_code: "successful"
         close_notes: "Resolved issue: {{ ansible_eda.event.description }}"
