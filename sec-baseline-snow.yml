@@ -13,6 +13,8 @@
         description: "Ansible Automation Platform will automatically reapply the security baseline"
         on_hold: false
         other:
+          incidents_fixed_by_change: "{{ ansible_eda.event.number }}"
+          incident: "{{ ansible_eda.event.number }}"
           parent: "{{ ansible_eda.event.number }}"
         instance:
           host: "{{ SNOW_INSTANCE }}"
