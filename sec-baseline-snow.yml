@@ -20,12 +20,12 @@
       register: change
 
     - name: Create Incident → Change relationship
-      servicenow.servicenow.records:
+      servicenow.itsm.records:
         table: task_rel_task
         state: present
         data:
-          parent: "{{ change.record.number }}"
-          child: "{{ ansible_eda.event.number }}"
+          child: "{{ change.record.number }}"
+          parent: "{{ ansible_eda.event.number }}"
           type: "Relates to"
         instance:
           host: "{{ SNOW_INSTANCE }}"
