@@ -8,8 +8,8 @@
       assert:
         that:
           - ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') in groups['all']
-        fail_msg: "Host '{{ {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }} }}' is NOT in the inventory!"
-        success_msg: "Host '{{ {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }} }}' is present in the inventory."
+        fail_msg: "Host {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }} is NOT in the inventory!"
+        success_msg: "Host {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }} is present in the inventory."
       delegate_to: localhost
 
 
