@@ -21,6 +21,7 @@
 
     - name: "Relate change request {{ change.record.number }} to incident {{ ansible_eda.event.number }}"
       servicenow.itsm.incident:
+        state: awaiting_change
         number: "{{ ansible_eda.event.number }}"
         other:
           rfc: "{{ change.record.number }}"
@@ -73,8 +74,6 @@
         number: "{{ ansible_eda.event.number }}"
         close_code: "Solved (Permanently)"
         close_notes: "Change {{ change.record.number }} closed. Security baseline breach automatically remediated by Ansible Automation Platform"
-        other:
-          active: false
         instance:
           host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
