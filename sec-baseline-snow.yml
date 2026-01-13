@@ -1,18 +1,4 @@
 ---
-- name: Validate input
-  hosts: all
-  become: true
-  gather_facts: false
-  tasks:
-    - name: Ensure ansible_eda.event.description refers to a valid inventory host
-      assert:
-        that:
-          - ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') in groups['all']
-        fail_msg: "Host {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }} is NOT in the inventory!"
-        success_msg: "Host {{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }} is present in the inventory."
-      delegate_to: localhost
-
-
 - name: Apply security baseline
   hosts: "{{ ansible_eda.event.description | regex_search('node=([^ ]+)', '\\1') }}"
   become: true
