@@ -21,7 +21,7 @@
 
     - name: "Relate change request {{ change.record.number }} to incident {{ ansible_eda.event.number }}"
       servicenow.itsm.incident:
-        state: in_progress
+        state: 2
         number: "{{ ansible_eda.event.number }}"
         other:
           rfc: "{{ change.record.number }}"
