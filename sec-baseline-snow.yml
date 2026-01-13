@@ -19,6 +19,17 @@
       delegate_to: localhost
       register: change
 
+    - name: "Relate change request {{ change.record.number }} to incident {{ ansible_eda.event.number }}"
+      servicenow.itsm.incident:
+        number: "{{ ansible_eda.event.number }}"
+        other:
+          rfc: "{{ change.record.number }}"
+        instance:
+          host: "{{ SNOW_INSTANCE }}"
+          username: "{{ SNOW_USER }}"
+          password: "{{ SNOW_PASS }}"
+      delegate_to: localhost
+
     - name: Auditd rule violation information
       ansible.builtin.debug:
         msg: "audit.log information: {{ ansible_eda.event.description }}"
