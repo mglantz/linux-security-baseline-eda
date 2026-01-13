@@ -7,7 +7,7 @@
         interval: 5
   rules:
     - name: Resolve breaches to security baseline
-      condition: "Breach of security baseline" in event.short_description
+      condition: event.short_description contains "Breach of security baseline:"
       action:
         run_job_template:
           name: 'Apply Linux security baseline'
