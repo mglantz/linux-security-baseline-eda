@@ -1,0 +1,133 @@
+#                                    __   __  __
+#                                    \ \ / / / /
+#                                     \ V / / /
+#                                      \_/  \/
+#
+#                                    V E C T O R
+#                                   Configuration
+#
+# ------------------------------------------------------------------------------
+# Website: https://vector.dev
+# Docs: https://vector.dev/docs
+# Chat: https://chat.vector.dev
+# ------------------------------------------------------------------------------
+
+# Change this to use a non-default directory for Vector data storage:
+# data_dir: "/var/lib/vector"
+
+# Random Syslog-formatted logs
+sources:
+  rsyslog_source:
+    type: "file"
+    include:
+      - /var/log/external/**/*.log 
+
+# Parse Syslog logs
+# See the Vector Remap Language reference for more info: https://vrl.dev
+transforms:
+  parse_logs:
+    type: "remap"
+    inputs: ["rsyslog_source"]
+    source: |
+      . = parse_syslog!(string!(.message)) 
+
+      # Create identifier we can process based on auditd key
+      if (contains(.message, "security-baseline")) {
+        .securitybaseline = "security-baseline event"
+      } else {
+        .securitybaseline = "ignore"
+      }
+
+      # Ansible uses Python...
+      if (contains(.message, "/usr/bin/python3.9")) {
+        .securitybaseline = "ignore"
+      }
+
+      # Noise
+      if (contains(.message, "/usr/bin/file")) {
+        .securitybaseline = "ignore"
+      }
+
+      if (contains(.message, "/usr/bin/lsattr")) {
+        .securitybaseline = "ignore"
+      }
+
+      # Someone removed a RPM
+      if (contains(.message, "remove sw")) {
+        .securitybaseline = "security-baseline event"
+      }
+
+      # Use of sysctl
+      if (contains(.message, "/usr/sbin/sysctl")) {
+        .securitybaseline = "security-baseline event"
+      }
+
+      # For dedup purposes, create timestamp down to a minute
+      .timestamp = format_timestamp!(now(),"%Y-%m-%d-%H-%M")
+
+      # ServiceNow
+      .hostname = .hostname + ".sudo.net"
+      .short_description = "Breach of security baseline: " + .hostname 
+      .description = .message
+      .category = "Software"
+      .subcategory = "Operating System"
+      .configuration_item = .hostname
+      .assignment_group = "changeme"
+      .impact = 1
+      .urgency = 1
+
+  filter_out_info:
+    type: "filter"
+    inputs:
+      - parse_logs
+    condition: .appname == "audispd"
+
+  last_filter:
+    type: "filter"
+    inputs:
+      - filter_out_info
+    condition: .securitybaseline != "ignore"
+
+  final_dedup:
+    type: dedupe
+    inputs:
+      - last_filter
+    cache:
+      num_events: 5
+    fields:
+      match:
+        - securitybaseline
+        - timestamp
+        - short_description
+        - hostname
+
+# Print parsed logs to stdout
+sinks:
+  servicenow:
+    type: "http"
+    method: "post"
+    inputs:
+      - "final_dedup"
+    uri: "https://replaceme.service-now.com/api/now/table/incident"
+    encoding:
+      codec: "json"
+    compression: "gzip"
+    auth:
+      strategy: "basic"
+      user: "theusername-replaceme"
+      password: "thepassword-replaceme"
+  print:
+    type: "console"
+    inputs: ["final_dedup"]
+    encoding:
+      codec: "json"
+      json:
+        pretty: true
+
+# Vector's GraphQL API (disabled by default)
+# Uncomment to try it out with the `vector top` command or
+# in your browser at http://localhost:8686
+api:
+  enabled: true
+  address: "0.0.0.0:8686"
+

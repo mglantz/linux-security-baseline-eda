@@ -43,6 +43,15 @@ transforms:
         .securitybaseline = "ignore"
       }
 
+      # Noise
+      if (contains(.message, "/usr/bin/file")) {
+        .securitybaseline = "ignore"
+      }
+
+      if (contains(.message, "/usr/bin/lsattr")) {
+        .securitybaseline = "ignore"
+      }
+
       # Someone removed a RPM
       if (contains(.message, "remove sw")) {
         .securitybaseline = "security-baseline event"
@@ -81,6 +90,7 @@ transforms:
       match:
         - securitybaseline
         - timestamp
+        - hostname
 
 # Print parsed logs to stdout
 sinks:
