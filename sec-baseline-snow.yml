@@ -54,6 +54,9 @@
     - name: Include sysctl role
       ansible.builtin.include_role:
         name: sysctl
+
+    - name: Sleep
+      ansible.builtin.command: sleep 99999
         
     - name: Close change request
       servicenow.itsm.change_request:
