@@ -15,8 +15,6 @@
 
 # Protect kernel configuration
 ## Kernel parameters
--w /usr/sbin/sysctl -p x -k security-baseline
-
 -w /etc/sysctl.conf -p wa -k security-baseline
 -w /etc/sysctl.d -p wa -k security-baseline
 
