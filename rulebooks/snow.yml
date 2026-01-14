@@ -8,7 +8,7 @@
   rules:
     - name: Resolve breaches to security baseline
       condition:
-        event.short_description is search("Breach of security baseline:", ignorecase=false)
+        event.state == "1" and event.short_description is search("Breach of security baseline:", ignorecase=false)
       action:
         run_job_template:
           name: 'Apply Linux security baseline'
