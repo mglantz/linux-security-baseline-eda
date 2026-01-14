@@ -4,7 +4,7 @@
     - name: Pull incidents from ServiceNow
       servicenow.itsm.records:
         table: incident
-        interval: 5
+        interval: 10
   rules:
     - name: Resolve breaches to security baseline
       condition:
