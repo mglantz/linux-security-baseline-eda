@@ -21,19 +21,10 @@
 
     - name: "Relate change request {{ change.record.number }} to incident {{ ansible_eda.event.number }}"
       servicenow.itsm.incident:
+        state: in_progress
         number: "{{ ansible_eda.event.number }}"
         other:
           rfc: "{{ change.record.number }}"
-        instance:
-          host: "{{ SNOW_INSTANCE }}"
-          username: "{{ SNOW_USER }}"
-          password: "{{ SNOW_PASS }}"
-      delegate_to: localhost
-
-    - name: "Relate change request {{ change.record.number }} to incident {{ ansible_eda.event.number }}"
-      servicenow.itsm.incident:
-        state: in_progress
-        number: "{{ ansible_eda.event.number }}"
         instance:
           host: "{{ SNOW_INSTANCE }}"
           username: "{{ SNOW_USER }}"
@@ -64,9 +55,6 @@
       ansible.builtin.include_role:
         name: sysctl
 
-    - name: Sleep
-      ansible.builtin.command: sleep 99999
-        
     - name: Close change request
       servicenow.itsm.change_request:
         state: closed
