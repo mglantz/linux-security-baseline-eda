@@ -38,8 +38,9 @@ I've just set this up myself. I'll try to get to creating this environment autom
 - To setup a demo environment you need 3 servers + AAP 2.5:
 1. A RHEL 9 system to protect
 2. A RHEL 9 system to host rsyslog server and vector
-3. A RHEL 9 system to host Kafka
-4. AAP 2.5
+3. If you use the Kafka integration pattern: A RHEL 9 system to host Kafka
+4. If you use the ServiceNow integration pattern: ServiceNow instance
+5. AAP 2.5 or later
 
 ### On the system you are looking to protect:
 Put in place the audit.rules and rsyslog.conf configuration found in the audit/rsyslog folders.
@@ -47,14 +48,19 @@ Put in place the audit.rules and rsyslog.conf configuration found in the audit/r
 ### On the rsyslog/vector system:
 Install and configure vector and rsyslog as described in the rsyslog/vector folders.
 
-### On the Kafka system:
+### If you use the Kafka integration pattern: On the Kafka system:
 Install and configure Kafka as described in the kafka folder.
 
-### On AAP 2.5
+### If you use the ServiceNow integration pattern: In ServiceNow:
+* Identify a standard incident you want to target.
+* [Build a custom ServiceNow Decision Environment by following the instructions here.](https://github.com/mglantz/linux-security-baseline-eda/tree/main/custom-de)
+* Upload the custom ServiceNow Decision Environment to AAP
+
+### On AAP
 Configure what's required following instructions in the aap folder.
 
 ## Author(s)
-- Magnus Glantz, sudo@redhat.com, 2025
+- Magnus Glantz, sudo@redhat.com, 2026
 
 ## Credits
 - Many thanks to Mina George, Red Hat, who came up with the idea of using Vector and a normal Rsyslog server to feed into EDA actions. Without you Mina, I would have never set this up.
