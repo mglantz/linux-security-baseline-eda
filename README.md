@@ -1,8 +1,14 @@
-# linux-security-baseline-eda
+# Event Driven Ansible use-cases
 
-Hello and welcome to this demonstration of using Event Driven Ansible to remediate detected changes in a Linux security baseline.
+Hello and welcome to this showcase of using Event Driven Ansible to remediate detected changes in a Linux security baseline.
+This this repository shows how you can build a standardized automated IT operations, using two main blueprints:
 
-## Overview
+* Event Driven Ansible + ServiceNow
+* Event Driven Ansible + Kafka
+
+For details, read below.
+
+## Event Driven Ansible + Kafka
 ![Overview of architecture](overview.png)
 
 1. Auditd detects an unauthorized change and tags it as a violation to the security baseline.
@@ -12,7 +18,19 @@ Hello and welcome to this demonstration of using Event Driven Ansible to remedia
 5. Vector sends select information about the violation to a security-baseline topic on a central Kafka cluster.
 6. AAP Event Driven Ansible (EDA) listens to the Kafka security-baseline topic and gets information that there has been a violation.
 7. The EDA rulebook in question fires off an action (running a job template), which is to re-apply the security baseline on the server in question. EDA sends information such as what system was impacted and auditd log information to the template, allowing it to execute against the impacted system.
-8. A job_template run on the AAP Controller receives information remediates the authorized change by re-apply the security baseline.
+8. A job template run on the AAP Controller receives information remediates the authorized change by re-apply the security baseline.
+
+## Event Driven Ansible + ServiceNow
+![Overview of architecture](overview-snow.png)
+
+1. Auditd detects an unauthorized change and tags it as a violation to the security baseline.
+2. Auditd provides information about what has happened to rsyslog
+3. Rsyslog sends audit trail of what happened to a central log server.
+4. Vector reads information from the central log server and processes the information.
+5. Vector sends select information about the violation to an incident queue in ServiceNow.
+6. AAP Event Driven Ansible (EDA) polls for new incidents created in ServiceNow - and gets information that there has been a violation.
+7. The EDA rulebook in question fires off an action (running a job template), which is to re-apply the security baseline on the server in question. EDA sends information such as what system was impacted and auditd log information to the template, allowing it to execute against the impacted system.
+8. A job template run on the AAP Controller receives information remediates the authorized change by re-apply the security baseline - and updates ServiceNow / closes the incident.
 
 ## Installation
 I've just set this up myself. I'll try to get to creating this environment automatically later.
